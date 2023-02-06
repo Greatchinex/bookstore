@@ -18,3 +18,26 @@ func init() {
 	db = config.GetDb()
 	db.AutoMigrate(&Book{})
 }
+
+func (b *Book) CreateBook() *Book {
+	db.Create(&b)
+	return b
+}
+
+func GetAllBooks() []Book {
+	var Books []Book
+	db.Find(&Books)
+	return Books
+}
+
+func GetBookById(Id int64) Book {
+	var singleBook Book
+	db.Where("ID=?", Id).Find(&singleBook)
+	return singleBook
+} 
+
+func DeleteBook(Id int64) bool {
+	var singleBook Book
+	db.Where("ID=?", Id).Delete(&singleBook)
+	return true
+} 

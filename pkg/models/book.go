@@ -7,7 +7,7 @@ import (
 
 var db *gorm.DB
 type Book struct {
-	gorm.Model // Auto gives you db columns id, and timestamps
+	gorm.Model // Auto gives you db columns id, and timestamps along with deleted_at
 	Name string `gorm:"name" json:"name"`
 	Author string `gorm:"author" json:"author"`
 	Publication string `gorm:"publication" json:"publication"`
@@ -34,7 +34,7 @@ func GetBookById(Id int64) Book {
 	var singleBook Book
 	db.Where("ID=?", Id).Find(&singleBook)
 	return singleBook
-} 
+}
 
 func DeleteBook(Id int64) bool {
 	var singleBook Book

@@ -36,6 +36,12 @@ func GetBookById(Id int64) Book {
 	return singleBook
 }
 
+
+func UpdateBook(Id int64, book Book) Book {
+	db.Model(&book).Where("ID=?", Id).Updates(book)
+	return book
+}
+
 func DeleteBook(Id int64) bool {
 	var singleBook Book
 	db.Where("ID=?", Id).Delete(&singleBook)

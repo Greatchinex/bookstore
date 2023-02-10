@@ -57,7 +57,23 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateBook(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Update Existing Book Method")
+	updateBook := models.Book{}
+	if err := utils.DecodeJson(r, &updateBook); err != nil {
+		fmt.Println(err)
+	}
+
+	Id := mux.Vars(r)["bookId"]
+	ID, err := strconv.ParseInt(Id, 0, 0)
+	if err != nil {
+		fmt.Printf("Error converting string %v to integer\n", ID)
+	}
+
+	book := models.UpdateBook(ID, updateBook)
+	res, _ := json.Marshal(book)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
 }
 
 func DeleteBook(w http.ResponseWriter, r *http.Request) {
